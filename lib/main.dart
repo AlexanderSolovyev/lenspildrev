@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:s3/res/auth_service.dart';
@@ -8,6 +8,8 @@ import 'package:s3/ui/pages/sign_in.dart';
 import 'package:s3/ui/pages/view_event.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'model/event.dart';
@@ -153,6 +155,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  MessageHandler(),
                   TableCalendar(
                     availableCalendarFormats: const {
                       CalendarFormat.month: 'месяц',
@@ -265,5 +268,44 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         onPressed: () => Navigator.pushNamed(context, 'add_event'),
       ),
     );
+  }
+}
+
+class MessageHandler extends StatefulWidget {
+  @override
+  _MessageHandlerState createState() => _MessageHandlerState();
+}
+
+class _MessageHandlerState extends State<MessageHandler> {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getToken();
+    _fcm.subscribeToTopic('note');
+
+    _fcm.configure(onMessage: (Map<String, dynamic> message) async {
+      print("onMessage: $message");
+      final snackbar =
+          SnackBar(content: Text(message['notification']['title']));
+      Scaffold.of(context).showSnackBar(snackbar);
+    }, onResume: (Map<String, dynamic> message) async {
+      print("onResume: $message");
+    }, onLaunch: (Map<String, dynamic> message) async {
+      print("onLaunch: $message");
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+
+  void _getToken() async {
+    String _fcmToken = await _fcm.getToken();
+    print(_fcmToken);
   }
 }
