@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:s3/res/event_firestore_service.dart';
+import 'package:s3/ui/pages/view_event/view_event.dart';
 
 class MessageHandler extends StatefulWidget {
   @override
@@ -14,7 +16,6 @@ class _MessageHandlerState extends State<MessageHandler> {
   @override
   void initState() {
     super.initState();
-
     _getToken();
     _fcm.subscribeToTopic('note');
 
@@ -25,8 +26,26 @@ class _MessageHandlerState extends State<MessageHandler> {
       Scaffold.of(context).showSnackBar(snackbar);
     }, onResume: (Map<String, dynamic> message) async {
       print("onResume: $message");
+      final id = message["data"]["id"];
+      final event = await eventDBS.getSingle(id);
+      print('event=' + event.toString());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => EventDetailsPage(
+                    event: event,
+                  )));
     }, onLaunch: (Map<String, dynamic> message) async {
       print("onLaunch: $message");
+      final id = message["data"]["id"];
+      final event = await eventDBS.getSingle(id);
+      print('event=' + event.toString());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => EventDetailsPage(
+                    event: event,
+                  )));
     });
   }
 

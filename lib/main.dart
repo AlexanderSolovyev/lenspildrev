@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:s3/model/event.dart';
 import 'package:s3/res/auth_service.dart';
 import 'package:s3/ui/pages/sign_in/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:s3/ui/pages/event_calendare/event_calendare.dart';
 import 'package:s3/ui/pages/add_event/add_event.dart';
+import 'package:s3/res/event_firestore_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
         StreamProvider(
           create: (context) => context.read<AuthService>().authStateChanges,
         ),
+        StreamProvider<List<EventModel>>(create: (_) => eventDBS.streamList())
       ],
       child: MaterialApp(
         localizationsDelegates: [

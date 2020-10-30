@@ -15,60 +15,68 @@ exports.newSpilNotification = functions.firestore
         const message = {
             notification: {
                 title: 'У нас новый заказ!',
-                body: e.get('description')+' '+ e.get('title')
+                body: e.get('description') + ' ' + e.get('title'),
             },
-                topic: topic
+            topic: topic,
+            data: {
+                id: e.id,
+                click_action: 'FLUTTER_NOTIFICATION_CLICK'
+            }
         }
 
         return admin.messaging().send(message)
             .then((response) => {
-            // Response is a message ID string.
-            console.log('Successfully sent message:', response);
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
             })
             .catch((error) => {
-            console.log('Error sending message:', error);
+                console.log('Error sending message:', error);
             });
     });
-    exports.updateSpilNotification = functions.firestore
+exports.updateSpilNotification = functions.firestore
     .document('events/{eventId}')
     .onUpdate(async e => {
         const topic = "note"
         const message = {
             notification: {
                 title: 'Заказ изменен',
-                body: e.after.get('description')+' '+ e.after.get('title')
+                body: e.after.get('description') + ' ' + e.after.get('title')
             },
-                topic: topic
+            topic: topic,
+            data: {
+                id: e.after.id,
+                click_action: 'FLUTTER_NOTIFICATION_CLICK'
+            }
         }
 
         return admin.messaging().send(message)
             .then((response) => {
-            // Response is a message ID string.
-            console.log('Successfully sent message:', response);
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
             })
             .catch((error) => {
-            console.log('Error sending message:', error);
+                console.log('Error sending message:', error);
             });
     });
 
-    exports.deleteSpilNotification = functions.firestore
+exports.deleteSpilNotification = functions.firestore
     .document('events/{eventId}')
     .onDelete(async e => {
         const topic = "note"
         const message = {
             notification: {
-                title:  e.get('description'),
+                title: e.get('description'),
                 body: 'Заказ удален'
             },
-                topic: topic
+            topic: topic
         }
 
         return admin.messaging().send(message)
             .then((response) => {
-            // Response is a message ID string.
-            console.log('Successfully sent message:', response);
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
             })
             .catch((error) => {
-            console.log('Error sending message:', error);
+                console.log('Error sending message:', error);
             });
     });

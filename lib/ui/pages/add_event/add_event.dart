@@ -188,17 +188,19 @@ class _AddEventPageState extends State<AddEventPage> {
                                   //"status": _status
                                 });
                               } else {
-                                await eventDBS.createItem(EventModel(
-                                    startDay: "01-01-2020",
-                                    price: int.parse(_price.text),
-                                    allDay: false,
-                                    title: _title.text,
-                                    description: _description.text,
-                                    eventDate: _eventDate,
-                                    endTime: _eventDate,
-                                    phone: _phone.text,
-                                    status: _status,
-                                    name: _name.text));
+                                Map<String, dynamic> item = {
+                                  'startDay': "01-01-2020",
+                                  'price': int.parse(_price.text),
+                                  'allDay': false,
+                                  'title': _title.text,
+                                  'description': _description.text,
+                                  'startTime': _eventDate,
+                                  'endTime': _eventDate,
+                                  'phone': _phone.text,
+                                  'status': _status.toString().split('.')[1],
+                                  'name': _name.text
+                                };
+                                await eventDBS.create(item);
                               }
                               Navigator.pop(context);
                               setState(() {
