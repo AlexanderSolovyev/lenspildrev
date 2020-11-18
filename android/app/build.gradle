@@ -39,7 +39,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.calendared.project.test"
+        applicationId "com.calendared.project"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()

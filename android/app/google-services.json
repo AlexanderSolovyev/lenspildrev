@@ -1,35 +1,42 @@
 {
   "project_info": {
-    "project_number": "567760523333",
-    "firebase_url": "https://calendared-test.firebaseio.com",
-    "project_id": "calendared-test",
-    "storage_bucket": "calendared-test.appspot.com"
+    "project_number": "312134660995",
+    "firebase_url": "https://calendared-fb681.firebaseio.com",
+    "project_id": "calendared-fb681",
+    "storage_bucket": "calendared-fb681.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:567760523333:android:3659f85a5b4d265f7c132c",
+        "mobilesdk_app_id": "1:312134660995:android:e589080c3080b0934f7cb6",
         "android_client_info": {
-          "package_name": "com.calendared.project.test"
+          "package_name": "com.calendared.project"
         }
       },
       "oauth_client": [
         {
-          "client_id": "567760523333-mgi1nb551ut0ca6mf3qqfnc4k5ags80h.apps.googleusercontent.com",
+          "client_id": "312134660995-vtfl4e2pp8joj2tl8rjad6f4gbsn7usp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBIaONNZl-4x5o5JAfA0yqYueaKAXBC9MA"
+          "current_key": "AIzaSyBN4qpxpM0QrUWGALdxLjgv0gXy7PnB-F4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "567760523333-mgi1nb551ut0ca6mf3qqfnc4k5ags80h.apps.googleusercontent.com",
+              "client_id": "312134660995-vtfl4e2pp8joj2tl8rjad6f4gbsn7usp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "312134660995-sl2edkuo25uvkkiog5f6ejc0ttvv8gfg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.calendared.project"
+              }
             }
           ]
         }

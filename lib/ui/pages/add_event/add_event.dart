@@ -5,8 +5,9 @@ import 'package:flutter/services.dart';
 
 class AddEventPage extends StatefulWidget {
   final EventModel note;
+  final DateTime selectedDay;
 
-  const AddEventPage({Key key, this.note}) : super(key: key);
+  const AddEventPage({Key key, this.note, this.selectedDay}) : super(key: key);
 
   @override
   _AddEventPageState createState() => _AddEventPageState();
@@ -38,13 +39,15 @@ class _AddEventPageState extends State<AddEventPage> {
         text: widget.note != null ? widget.note.phone : "");
     _name = TextEditingController(
         text: widget.note != null ? widget.note.name : "");
-    _eventDate = DateTime.now();
+    _eventDate =
+        widget.note != null ? widget.note.eventDate : widget.selectedDay;
     _status = widget.note != null ? widget.note.status : StatusValues.work;
     processing = false;
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.selectedDay);
     return Scaffold(
       appBar: AppBar(
         title: Text(

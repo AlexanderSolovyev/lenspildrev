@@ -153,106 +153,87 @@ class _StatusSelector extends State<StatusSelector> {
         ),
         Card(
           child: Container(
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: const Text('Оценка'),
-                        leading: Radio(
-                            activeColor: Colors.yellow,
-                            value: StatusValues.look,
-                            groupValue: event.status,
-                            onChanged: (StatusValues value) {
-                              setState(() {
-                                event.status = value;
-                                eventDBS.updateData(widget.event.id, {
-                                  "status":
-                                      event.status.toString().split('.')[1]
-                                });
-                              });
-                            }),
-                      ),
-                      ListTile(
-                        title: const Text('Работаем'),
-                        leading: Radio(
-                            activeColor: Colors.green,
-                            value: StatusValues.work,
-                            groupValue: event.status,
-                            onChanged: (StatusValues value) {
-                              setState(() {
-                                event.status = value;
-                                eventDBS.updateData(widget.event.id, {
-                                  "status":
-                                      event.status.toString().split('.')[1]
-                                });
-                              });
-                            }),
-                      ),
-                      ListTile(
-                        title: const Text('Выполнен'),
-                        leading: Radio(
-                            activeColor: Colors.blue,
-                            value: StatusValues.completed,
-                            groupValue: event.status,
-                            onChanged: (StatusValues value) {
-                              setState(() {
-                                event.status = value;
-                                eventDBS.updateData(widget.event.id, {
-                                  "status":
-                                      event.status.toString().split('.')[1]
-                                });
-                              });
-                            }),
-                      ),
-                    ],
-                  ),
+                ListTile(
+                  title: const Text('Оценка'),
+                  leading: Radio(
+                      activeColor: Colors.yellow,
+                      value: StatusValues.look,
+                      groupValue: event.status,
+                      onChanged: (StatusValues value) {
+                        setState(() {
+                          event.status = value;
+                          eventDBS.updateData(widget.event.id, {
+                            "status": event.status.toString().split('.')[1]
+                          });
+                        });
+                      }),
                 ),
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: const Text('Звонить'),
-                        leading: Radio(
-                            activeColor: Colors.purple,
-                            value: StatusValues.call,
-                            groupValue: event.status,
-                            onChanged: (StatusValues value) {
-                              setState(() {
-                                event.status = value;
-                                eventDBS.updateData(widget.event.id, {
-                                  "status":
-                                      event.status.toString().split('.')[1]
-                                });
-                              });
-                            }),
-                      ),
-                      ListTile(
-                        title: const Text('Отменен'),
-                        leading: Radio(
-                            activeColor: Colors.grey,
-                            value: StatusValues.uncorfimed,
-                            groupValue: event.status,
-                            onChanged: (StatusValues value) {
-                              setState(() {
-                                event.status = value;
-                                eventDBS.updateData(widget.event.id, {
-                                  "status":
-                                      event.status.toString().split('.')[1]
-                                });
-                              });
-                            }),
-                      ),
-                    ],
-                  ),
+                ListTile(
+                  title: const Text('Работаем'),
+                  leading: Radio(
+                      activeColor: Colors.green,
+                      value: StatusValues.work,
+                      groupValue: event.status,
+                      onChanged: (StatusValues value) {
+                        setState(() {
+                          event.status = value;
+                          eventDBS.updateData(widget.event.id, {
+                            "status": event.status.toString().split('.')[1]
+                          });
+                        });
+                      }),
+                ),
+                ListTile(
+                  title: const Text('Выполнен'),
+                  leading: Radio(
+                      activeColor: Colors.blue,
+                      value: StatusValues.completed,
+                      groupValue: event.status,
+                      onChanged: (StatusValues value) {
+                        setState(() {
+                          event.status = value;
+                          eventDBS.updateData(widget.event.id, {
+                            "status": event.status.toString().split('.')[1]
+                          });
+                        });
+                      }),
+                ),
+                ListTile(
+                  title: const Text('Звонить'),
+                  leading: Radio(
+                      activeColor: Colors.purple,
+                      value: StatusValues.call,
+                      groupValue: event.status,
+                      onChanged: (StatusValues value) {
+                        setState(() {
+                          event.status = value;
+                          eventDBS.updateData(widget.event.id, {
+                            "status": event.status.toString().split('.')[1]
+                          });
+                        });
+                      }),
+                ),
+                ListTile(
+                  title: const Text('Отменен'),
+                  leading: Radio(
+                      activeColor: Colors.grey,
+                      value: StatusValues.uncorfimed,
+                      groupValue: event.status,
+                      onChanged: (StatusValues value) {
+                        setState(() {
+                          event.status = value;
+                          eventDBS.updateData(widget.event.id, {
+                            "status": event.status.toString().split('.')[1]
+                          });
+                        });
+                      }),
                 ),
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

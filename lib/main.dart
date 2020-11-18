@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:s3/model/event.dart';
 import 'package:s3/res/auth_service.dart';
+import 'package:s3/ui/pages/clients/clients.dart';
 import 'package:s3/ui/pages/sign_in/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,8 +57,62 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User>();
 
     if (firebaseUser != null) {
-      return HomePage();
+      return TabsController();
     }
     return SignIn();
+  }
+}
+
+class TabsController extends StatefulWidget {
+  @override
+  _TabsControllerState createState() => _TabsControllerState();
+}
+
+class _TabsControllerState extends State<TabsController>
+    with TickerProviderStateMixin {
+  TabController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ленспидрев.рф'),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () {
+                context.read<AuthService>().signOut();
+              }),
+        ],
+        bottom: TabBar(controller: controller, tabs: [
+          Tab(
+            icon: Icon(
+              Icons.calendar_today,
+            ),
+            text: 'Календарь',
+          ),
+          Tab(
+            icon: Icon(Icons.person),
+            text: 'Клиенты',
+          )
+        ]),
+      ),
+      body: TabBarView(controller: controller, children: <Widget>[
+        EventCalendarePage(),
+        ClientsPage(),
+      ]),
+    );
   }
 }
