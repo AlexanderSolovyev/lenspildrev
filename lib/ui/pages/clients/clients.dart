@@ -10,27 +10,10 @@ class ClientsPage extends StatefulWidget {
 }
 
 class _ClientsPageState extends State<ClientsPage> {
-  Map<DateTime, List<dynamic>> _events;
-
-  @override
-  void initState() {
-    super.initState();
-    _events = {};
-  }
-
   @override
   Widget build(BuildContext context) {
     final snapshot = Provider.of<List<EventModel>>(context);
-    return Builder(
-        //stream: eventDBS.streamList(),
-        builder: (context) {
-      if (snapshot != null) {
-        List<EventModel> allEvents = snapshot;
-        if (allEvents.isNotEmpty) {
-        } else {
-          _events = {};
-        }
-      }
+    return Builder(builder: (context) {
       return SingleChildScrollView(
         child: Column(
           children: [
@@ -38,30 +21,13 @@ class _ClientsPageState extends State<ClientsPage> {
               (event) => Card(
                 child: ListTile(
                   leading: Icon(
-                    event.status == StatusValues.uncorfimed
-                        ? Icons.clear
-                        : event.status == StatusValues.call
-                            ? Icons.call
-                            : event.status == StatusValues.look
-                                ? Icons.camera_alt
-                                : event.status == StatusValues.work
-                                    ? Icons.nature_people
-                                    : Icons.done,
-                    color: event.status == StatusValues.uncorfimed
-                        ? Colors.grey
-                        : event.status == StatusValues.call
-                            ? Colors.purple
-                            : event.status == StatusValues.look
-                                ? Colors.yellow
-                                : event.status == StatusValues.work
-                                    ? Colors.green
-                                    : Colors.blue,
+                    statusIconType(event),
+                    color: statusIconColor(event),
                     size: 40.0,
                   ),
                   title: Text(event.title),
                   subtitle: Text(event.description),
                   onLongPress: () {
-                    print(event.id);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -84,5 +50,39 @@ class _ClientsPageState extends State<ClientsPage> {
         ),
       );
     });
+  }
+
+  Color statusIconColor(EventModel event) {
+    switch (event.status) {
+      case StatusValues.work:
+        return Colors.green;
+      case StatusValues.uncorfimed:
+        return Colors.grey;
+      case StatusValues.call:
+        return Colors.purple;
+      case StatusValues.look:
+        return Colors.yellow;
+      case StatusValues.completed:
+        return Colors.blue;
+      default:
+        return null;
+    }
+  }
+
+  IconData statusIconType(EventModel event) {
+    switch (event.status) {
+      case StatusValues.work:
+        return Icons.nature_people;
+      case StatusValues.uncorfimed:
+        return Icons.clear;
+      case StatusValues.call:
+        return Icons.call;
+      case StatusValues.look:
+        return Icons.camera_alt;
+      case StatusValues.completed:
+        return Icons.done;
+      default:
+        return null;
+    }
   }
 }
