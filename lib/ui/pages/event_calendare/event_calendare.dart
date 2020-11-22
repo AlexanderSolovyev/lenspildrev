@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:s3/ui/pages/common/event_tile.dart';
 import 'package:s3/ui/pages/common/message_handler.dart';
 import 'package:s3/ui/pages/view_event/view_event.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -127,35 +128,7 @@ class _EventCalendarePageState extends State<EventCalendarePage>
               ),
               calendarController: _controller,
             ),
-            ..._selectedEvents.map(
-              (event) => Card(
-                child: ListTile(
-                  leading: Icon(
-                    statusIconType(event),
-                    color: statusIconColor(event),
-                    size: 40.0,
-                  ),
-                  title: Text(event.title),
-                  subtitle: Text(event.description),
-                  onLongPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => AddEventPage(note: event),
-                      ),
-                    );
-                  },
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => EventDetailsPage(
-                                  event: event,
-                                )));
-                  },
-                ),
-              ),
-            ),
+            ..._selectedEvents.map((event) => EventTile(event: event)),
             Align(
               alignment: Alignment.topRight,
               child: FlatButton(
@@ -173,39 +146,5 @@ class _EventCalendarePageState extends State<EventCalendarePage>
         ),
       );
     });
-  }
-
-  Color statusIconColor(EventModel event) {
-    switch (event.status) {
-      case StatusValues.work:
-        return Colors.green;
-      case StatusValues.uncorfimed:
-        return Colors.grey;
-      case StatusValues.call:
-        return Colors.purple;
-      case StatusValues.look:
-        return Colors.yellow;
-      case StatusValues.completed:
-        return Colors.blue;
-      default:
-        return null;
-    }
-  }
-
-  IconData statusIconType(EventModel event) {
-    switch (event.status) {
-      case StatusValues.work:
-        return Icons.nature_people;
-      case StatusValues.uncorfimed:
-        return Icons.clear;
-      case StatusValues.call:
-        return Icons.call;
-      case StatusValues.look:
-        return Icons.camera_alt;
-      case StatusValues.completed:
-        return Icons.done;
-      default:
-        return null;
-    }
   }
 }

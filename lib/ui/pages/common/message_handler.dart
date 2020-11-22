@@ -20,15 +20,12 @@ class _MessageHandlerState extends State<MessageHandler> {
     _fcm.subscribeToTopic('note');
 
     _fcm.configure(onMessage: (Map<String, dynamic> message) async {
-      print("onMessage: $message");
       final snackbar =
           SnackBar(content: Text(message['notification']['title']));
       Scaffold.of(context).showSnackBar(snackbar);
     }, onResume: (Map<String, dynamic> message) async {
-      print("onResume: $message");
       final id = message["data"]["id"];
       final event = await eventDBS.getSingle(id);
-      print('event=' + event.toString());
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -36,10 +33,8 @@ class _MessageHandlerState extends State<MessageHandler> {
                     event: event,
                   )));
     }, onLaunch: (Map<String, dynamic> message) async {
-      print("onLaunch: $message");
       final id = message["data"]["id"];
       final event = await eventDBS.getSingle(id);
-      print('event=' + event.toString());
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -56,6 +51,5 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   void _getToken() async {
     String _fcmToken = await _fcm.getToken();
-    print(_fcmToken);
   }
 }
