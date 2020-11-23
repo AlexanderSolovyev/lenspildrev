@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:s3/ui/pages/common/event_tile.dart';
 import 'package:s3/ui/pages/common/message_handler.dart';
-import 'package:s3/ui/pages/view_event/view_event.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:s3/model/event.dart';
 import 'package:s3/ui/pages/add_event/add_event.dart';

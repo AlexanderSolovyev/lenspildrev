@@ -3,6 +3,7 @@ import 'package:s3/model/event.dart';
 import 'package:s3/res/event_firestore_service.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:intl/intl.dart';
+import 'package:s3/ui/pages/common/status_icon_color_select.dart';
 
 class EventDetailsPage extends StatelessWidget {
   final EventModel event;
@@ -111,7 +112,7 @@ class StatusSelector extends StatefulWidget {
   _StatusSelector createState() => _StatusSelector(event: event);
 }
 
-class _StatusSelector extends State<StatusSelector> {
+class _StatusSelector extends State<StatusSelector> with StatusIconColorSelect {
   EventModel event;
   _StatusSelector({Key key, this.event}) : super();
   //StatusValues _character = event.status;
@@ -122,24 +123,8 @@ class _StatusSelector extends State<StatusSelector> {
         Card(
           child: ListTile(
             leading: Icon(
-              event.status == StatusValues.uncorfimed
-                  ? Icons.clear
-                  : event.status == StatusValues.call
-                      ? Icons.call
-                      : event.status == StatusValues.look
-                          ? Icons.camera_alt
-                          : event.status == StatusValues.work
-                              ? Icons.nature_people
-                              : Icons.done,
-              color: event.status == StatusValues.uncorfimed
-                  ? Colors.grey
-                  : event.status == StatusValues.call
-                      ? Colors.purple
-                      : event.status == StatusValues.look
-                          ? Colors.yellow
-                          : event.status == StatusValues.work
-                              ? Colors.green
-                              : Colors.blue,
+              statusIconType(event),
+              color: statusIconColor(event),
               size: 40.0,
             ),
             title: Text(event.name),
@@ -241,5 +226,6 @@ class _StatusSelector extends State<StatusSelector> {
   _callNumber(phone) async {
     var number = phone; //set the number here
     bool res = await FlutterPhoneDirectCaller.callNumber(number);
+    return res;
   }
 }
