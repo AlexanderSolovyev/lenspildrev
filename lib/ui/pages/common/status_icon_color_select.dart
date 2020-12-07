@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:s3/model/event.dart';
 
-class StatusIconColorSelect {
-  Color statusIconColor(EventModel event) {
-    switch (event.status) {
+class StatusIconColorTextSelect {
+  Color statusIconColor(StatusValues status) {
+    switch (status) {
       case StatusValues.work:
         return Colors.green;
       case StatusValues.uncorfimed:
@@ -19,8 +19,8 @@ class StatusIconColorSelect {
     }
   }
 
-  IconData statusIconType(EventModel event) {
-    switch (event.status) {
+  IconData statusIconType(StatusValues status) {
+    switch (status) {
       case StatusValues.work:
         return Icons.nature_people;
       case StatusValues.uncorfimed:
@@ -31,6 +31,23 @@ class StatusIconColorSelect {
         return Icons.camera_alt;
       case StatusValues.completed:
         return Icons.done;
+      default:
+        return null;
+    }
+  }
+
+  Text statusText(StatusValues status) {
+    switch (status) {
+      case StatusValues.work:
+        return Text('Работаем');
+      case StatusValues.uncorfimed:
+        return Text('Отменен');
+      case StatusValues.call:
+        return Text('Звонить');
+      case StatusValues.look:
+        return Text('Оценка');
+      case StatusValues.completed:
+        return Text('Завершен');
       default:
         return null;
     }

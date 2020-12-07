@@ -30,7 +30,7 @@ class _MessageHandlerState extends State<MessageHandler> {
           context,
           MaterialPageRoute(
               builder: (_) => EventDetailsPage(
-                    event: event,
+                    eventId: event.id,
                   )));
     }, onLaunch: (Map<String, dynamic> message) async {
       final id = message["data"]["id"];
@@ -39,7 +39,7 @@ class _MessageHandlerState extends State<MessageHandler> {
           context,
           MaterialPageRoute(
               builder: (_) => EventDetailsPage(
-                    event: event,
+                    eventId: event.id,
                   )));
     });
   }
