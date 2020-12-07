@@ -2,6 +2,7 @@ import 'package:s3/model/event.dart';
 import 'package:flutter/material.dart';
 import 'package:s3/res/event_firestore_service.dart';
 import 'package:flutter/services.dart';
+import 'package:s3/ui/pages/common/status_selector.dart';
 
 class AddEventPage extends StatefulWidget {
   final EventModel note;
@@ -163,6 +164,7 @@ class _AddEventPageState extends State<AddEventPage> {
                           borderRadius: BorderRadius.circular(10))),
                 ),
               ),
+              StatusSelector(event: widget.note),
               SizedBox(height: 10.0),
               processing
                   ? Center(child: CircularProgressIndicator())
