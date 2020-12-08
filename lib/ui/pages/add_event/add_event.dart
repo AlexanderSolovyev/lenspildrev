@@ -2,7 +2,7 @@ import 'package:s3/model/event.dart';
 import 'package:flutter/material.dart';
 import 'package:s3/res/event_firestore_service.dart';
 import 'package:flutter/services.dart';
-import 'package:s3/ui/pages/common/status_selector.dart';
+import 'package:s3/ui/pages/common/status_icon_color_select.dart';
 
 class AddEventPage extends StatefulWidget {
   final EventModel note;
@@ -14,7 +14,8 @@ class AddEventPage extends StatefulWidget {
   _AddEventPageState createState() => _AddEventPageState();
 }
 
-class _AddEventPageState extends State<AddEventPage> {
+class _AddEventPageState extends State<AddEventPage>
+    with StatusIconColorTextSelect {
   TextStyle style = TextStyle(fontFamily: 'Robboto', fontSize: 16.0);
   TextEditingController _price;
   TextEditingController _title;
@@ -164,7 +165,11 @@ class _AddEventPageState extends State<AddEventPage> {
                           borderRadius: BorderRadius.circular(10))),
                 ),
               ),
-              StatusSelector(event: widget.note),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
+                child: statusSelector(context),
+              ),
               SizedBox(height: 10.0),
               processing
                   ? Center(child: CircularProgressIndicator())
@@ -226,6 +231,28 @@ class _AddEventPageState extends State<AddEventPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget statusSelector(BuildContext context) {
+    return Card(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: StatusValues.values.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+                title: statusText(StatusValues.values[index]),
+                leading: Radio(
+                  activeColor: statusIconColor(StatusValues.values[index]),
+                  value: StatusValues.values[index],
+                  groupValue: _status,
+                  onChanged: (StatusValues value) {
+                    setState(() {
+                      _status = value;
+                    });
+                  },
+                ));
+          }),
     );
   }
 
