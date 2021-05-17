@@ -18,33 +18,33 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.2+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  provider: ^4.3.2+2
+  provider: ^5.0.0
 
-  firebase_core: "^0.5.0+1"
-  firebase_auth: "^0.18.1+2"
-  cloud_firestore: ^0.14.0+2
-  firebase_helpers: ^0.2.1
-  firebase_messaging: ^7.0.3
+  firebase_core: ^1.1.1
+  firebase_auth: ^1.1.4
+  cloud_firestore: ^1.0.7
+  firebase_helpers: ^0.3.1
+  firebase_messaging: ^9.1.4
 
 
-  table_calendar: ^2.2.3
+  table_calendar: ^3.0.0
   flutter_localizations:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
+  cupertino_icons: ^1.0.3
   flutter_phone_direct_caller:
     git:
       url: https://github.com/yanisalfian/flutter-phone-direct-caller.git
 
 dev_dependencies:
-  flutter_launcher_icons:
+  flutter_launcher_icons: ^0.9.0
 
   flutter_test:
     sdk: flutter

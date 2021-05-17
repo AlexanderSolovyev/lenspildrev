@@ -1,19 +1,17 @@
-import 'package:firebase_helpers/firebase_helpers.dart';
-
 enum StatusValues { uncorfimed, call, look, work, completed }
 
-class EventModel extends DatabaseItem {
-  final String startDay;
-  final int price;
-  final bool allDay;
-  final String id;
-  final String title;
-  final String description;
-  final DateTime eventDate;
-  final DateTime endTime;
-  final String phone;
-  final String name;
-  StatusValues status;
+class EventModel {
+  final String? startDay;
+  final int? price;
+  final bool? allDay;
+  final String? id;
+  final String? title;
+  final String? description;
+  final DateTime? eventDate;
+  final DateTime? endTime;
+  final String? phone;
+  final String? name;
+  StatusValues? status;
 
   EventModel(
       {this.id,
@@ -26,8 +24,7 @@ class EventModel extends DatabaseItem {
       this.eventDate,
       this.phone,
       this.status,
-      this.name})
-      : super(id);
+      this.name});
 
   factory EventModel.fromMap(Map data) {
     return EventModel(

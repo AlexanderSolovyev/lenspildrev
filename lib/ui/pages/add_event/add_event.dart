@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:s3/ui/pages/common/status_icon_color_select.dart';
 
 class AddEventPage extends StatefulWidget {
-  final EventModel note;
-  final DateTime selectedDay;
+  final EventModel? note;
+  final DateTime? selectedDay;
 
-  const AddEventPage({Key key, this.note, this.selectedDay}) : super(key: key);
+  const AddEventPage({Key? key, this.note, this.selectedDay}) : super(key: key);
 
   @override
   _AddEventPageState createState() => _AddEventPageState();
@@ -17,33 +17,33 @@ class AddEventPage extends StatefulWidget {
 class _AddEventPageState extends State<AddEventPage>
     with StatusIconColorTextSelect {
   TextStyle style = TextStyle(fontFamily: 'Robboto', fontSize: 16.0);
-  TextEditingController _price;
-  TextEditingController _title;
-  TextEditingController _description;
-  TextEditingController _phone;
-  TextEditingController _name;
-  DateTime _eventDate;
-  StatusValues _status;
+  TextEditingController? _price;
+  TextEditingController? _title;
+  TextEditingController? _description;
+  TextEditingController? _phone;
+  TextEditingController? _name;
+  DateTime? _eventDate;
+  StatusValues? _status;
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
-  bool processing;
+  bool processing = false;
 
   @override
   void initState() {
     super.initState();
     _price = TextEditingController(
-        text: widget.note != null ? widget.note.price.toString() : "");
+        text: widget.note != null ? widget.note!.price.toString() : "");
     _title = TextEditingController(
-        text: widget.note != null ? widget.note.title : "");
+        text: widget.note != null ? widget.note!.title : "");
     _description = TextEditingController(
-        text: widget.note != null ? widget.note.description : "");
+        text: widget.note != null ? widget.note!.description : "");
     _phone = TextEditingController(
-        text: widget.note != null ? widget.note.phone : "");
+        text: widget.note != null ? widget.note!.phone : "");
     _name = TextEditingController(
-        text: widget.note != null ? widget.note.name : "");
+        text: widget.note != null ? widget.note!.name : "");
     _eventDate =
-        widget.note != null ? widget.note.eventDate : widget.selectedDay;
-    _status = widget.note != null ? widget.note.status : StatusValues.work;
+        widget.note != null ? widget.note!.eventDate : widget.selectedDay;
+    _status = (widget.note != null ? widget.note!.status : StatusValues.work)!;
     processing = false;
   }
 
@@ -68,7 +68,7 @@ class _AddEventPageState extends State<AddEventPage>
                 child: TextFormField(
                   controller: _title,
                   validator: (value) =>
-                      (value.isEmpty) ? "Пожалуйста, укажите место" : null,
+                      (value!.isEmpty) ? "Пожалуйста, укажите место" : null,
                   style: style,
                   decoration: InputDecoration(
                       labelText: "Где",
@@ -83,7 +83,7 @@ class _AddEventPageState extends State<AddEventPage>
                 child: TextFormField(
                   controller: _description,
                   validator: (value) =>
-                      (value.isEmpty) ? "Пожалуйста, напишите о заказе" : null,
+                      (value!.isEmpty) ? "Пожалуйста, напишите о заказе" : null,
                   style: style,
                   decoration: InputDecoration(
                       filled: true,
@@ -101,7 +101,7 @@ class _AddEventPageState extends State<AddEventPage>
                   keyboardType: TextInputType.number,
                   controller: _price,
                   validator: (value) =>
-                      (value.isEmpty) ? "Пожалуйста, введите цену" : null,
+                      (value!.isEmpty) ? "Пожалуйста, введите цену" : null,
                   style: style,
                   decoration: InputDecoration(
                       filled: true,
@@ -117,17 +117,17 @@ class _AddEventPageState extends State<AddEventPage>
                   style: TextStyle(fontSize: 12.0),
                 ),
                 subtitle: Text(
-                  "${_eventDate.day} - ${_eventDate.month} - ${_eventDate.year}",
+                  "${_eventDate!.day} - ${_eventDate!.month} - ${_eventDate!.year}",
                   style: TextStyle(fontSize: 20.0),
                 ),
                 onTap: () async {
-                  DateTime picked = await showDatePicker(
+                  DateTime? picked = await showDatePicker(
                       locale: const Locale('ru', 'RU'),
                       cancelText: 'ОТМЕНА',
                       context: context,
-                      initialDate: _eventDate,
-                      firstDate: DateTime(_eventDate.year - 5),
-                      lastDate: DateTime(_eventDate.year + 5));
+                      initialDate: _eventDate!,
+                      firstDate: DateTime(_eventDate!.year - 5),
+                      lastDate: DateTime(_eventDate!.year + 5));
                   if (picked != null) {
                     setState(() {
                       _eventDate = picked;
@@ -141,7 +141,7 @@ class _AddEventPageState extends State<AddEventPage>
                 child: TextFormField(
                   controller: _phone,
                   validator: (value) =>
-                      (value.isEmpty) ? "Пожалуйста, запишите телефон" : null,
+                      (value!.isEmpty) ? "Пожалуйста, запишите телефон" : null,
                   style: style,
                   decoration: InputDecoration(
                       filled: true,
@@ -156,7 +156,7 @@ class _AddEventPageState extends State<AddEventPage>
                 child: TextFormField(
                   controller: _name,
                   validator: (value) =>
-                      (value.isEmpty) ? "Пожалуйста, уточните имя" : null,
+                      (value!.isEmpty) ? "Пожалуйста, уточните имя" : null,
                   style: style,
                   decoration: InputDecoration(
                       filled: true,
@@ -181,34 +181,34 @@ class _AddEventPageState extends State<AddEventPage>
                         color: Theme.of(context).primaryColor,
                         child: MaterialButton(
                           onPressed: () async {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               setState(() {
                                 processing = true;
                               });
                               if (widget.note != null) {
-                                await eventDBS.updateData(widget.note.id, {
+                                await eventDBS.updateData(widget.note!.id!, {
                                   'endTime': _eventDate,
-                                  "price": int.parse(_price.text),
-                                  "title": _title.text,
-                                  "description": _description.text,
+                                  "price": int.parse(_price!.text),
+                                  "title": _title!.text,
+                                  "description": _description!.text,
                                   //"startTime": widget.note.eventDate,
                                   "startTime": _eventDate,
-                                  "phone": _phone.text,
-                                  "name": _name.text,
+                                  "phone": _phone!.text,
+                                  "name": _name!.text,
                                   //"status": _status
                                 });
                               } else {
                                 Map<String, dynamic> item = {
                                   'startDay': "01-01-2020",
-                                  'price': int.parse(_price.text),
+                                  'price': int.parse(_price!.text),
                                   'allDay': false,
-                                  'title': _title.text,
-                                  'description': _description.text,
+                                  'title': _title!.text,
+                                  'description': _description!.text,
                                   'startTime': _eventDate,
                                   'endTime': _eventDate,
-                                  'phone': _phone.text,
+                                  'phone': _phone!.text,
                                   'status': _status.toString().split('.')[1],
-                                  'name': _name.text
+                                  'name': _name!.text
                                 };
                                 await eventDBS.create(item);
                               }
@@ -246,9 +246,9 @@ class _AddEventPageState extends State<AddEventPage>
                   activeColor: statusIconColor(StatusValues.values[index]),
                   value: StatusValues.values[index],
                   groupValue: _status,
-                  onChanged: (StatusValues value) {
+                  onChanged: (StatusValues? value) {
                     setState(() {
-                      _status = value;
+                      _status = value!;
                     });
                   },
                 ));
@@ -258,8 +258,8 @@ class _AddEventPageState extends State<AddEventPage>
 
   @override
   void dispose() {
-    _title.dispose();
-    _description.dispose();
+    _title!.dispose();
+    _description!.dispose();
     super.dispose();
   }
 }

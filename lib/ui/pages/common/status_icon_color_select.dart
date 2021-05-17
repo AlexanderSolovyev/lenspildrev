@@ -15,7 +15,7 @@ class StatusIconColorTextSelect {
       case StatusValues.completed:
         return Colors.blue;
       default:
-        return null;
+        return Colors.white;
     }
   }
 
@@ -32,7 +32,7 @@ class StatusIconColorTextSelect {
       case StatusValues.completed:
         return Icons.done;
       default:
-        return null;
+        return Icons.clear;
     }
   }
 
@@ -49,7 +49,7 @@ class StatusIconColorTextSelect {
       case StatusValues.completed:
         return Text('Завершен');
       default:
-        return null;
+        return Text('Отменен');
     }
   }
 }

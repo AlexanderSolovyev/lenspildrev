@@ -29,8 +29,12 @@ class MyApp extends StatelessWidget {
         ),
         StreamProvider(
           create: (context) => context.read<AuthService>().authStateChanges,
+          initialData: null,
         ),
-        StreamProvider<List<EventModel>>(create: (_) => eventDBS.streamList())
+        StreamProvider<List<EventModel>>(
+          create: (_) => eventDBS.streamList(),
+          initialData: [],
+        )
       ],
       child: MaterialApp(
         localizationsDelegates: [
@@ -54,7 +58,7 @@ class MyApp extends StatelessWidget {
 class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
+    final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
       return TabsController();
@@ -70,7 +74,7 @@ class TabsController extends StatefulWidget {
 
 class _TabsControllerState extends State<TabsController>
     with TickerProviderStateMixin {
-  TabController controller;
+  late TabController controller;
 
   @override
   void initState() {

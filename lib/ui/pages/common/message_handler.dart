@@ -10,36 +10,28 @@ class MessageHandler extends StatefulWidget {
 }
 
 class _MessageHandlerState extends State<MessageHandler> {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final FirebaseMessaging _fcm = FirebaseMessaging();
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
   @override
   void initState() {
     super.initState();
     _getToken();
-    _fcm.subscribeToTopic('note');
+    FirebaseMessaging.instance.subscribeToTopic('note');
 
-    _fcm.configure(onMessage: (Map<String, dynamic> message) async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      print('message=' + message.data.toString());
       final snackbar =
-          SnackBar(content: Text(message['notification']['title']));
+          SnackBar(content: Text(message.notification!.title.toString()));
       Scaffold.of(context).showSnackBar(snackbar);
-    }, onResume: (Map<String, dynamic> message) async {
-      final id = message["data"]["id"];
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      final id = message.data["data"]["id"];
       final event = await eventDBS.getSingle(id);
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (_) => EventDetailsPage(
-                    eventId: event.id,
-                  )));
-    }, onLaunch: (Map<String, dynamic> message) async {
-      final id = message["data"]["id"];
-      final event = await eventDBS.getSingle(id);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => EventDetailsPage(
-                    eventId: event.id,
+                    eventId: event!.id!,
                   )));
     });
   }
@@ -50,6 +42,6 @@ class _MessageHandlerState extends State<MessageHandler> {
   }
 
   void _getToken() async {
-    String _fcmToken = await _fcm.getToken();
+    String? _fcmToken = await _fcm.getToken();
   }
 }

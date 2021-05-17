@@ -7,8 +7,8 @@ import 'package:s3/ui/pages/common/status_icon_color_select.dart';
 import 'package:s3/ui/pages/common/status_selector.dart';
 
 class EventDetailsPage extends StatelessWidget with StatusIconColorTextSelect {
-  final String eventId;
-  const EventDetailsPage({Key key, this.eventId}) : super(key: key);
+  final String? eventId;
+  const EventDetailsPage({Key? key, this.eventId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class EventDetailsPage extends StatelessWidget with StatusIconColorTextSelect {
                       color: Colors.yellow,
                     ),
                     title: Text(
-                      event.title,
+                      event.title!,
                     ),
                   ),
                   ListTile(
@@ -44,7 +44,7 @@ class EventDetailsPage extends StatelessWidget with StatusIconColorTextSelect {
                       color: Colors.green,
                     ),
                     title: Text(
-                      event.description,
+                      event.description!,
                     ),
                   ),
                   Row(
@@ -66,7 +66,7 @@ class EventDetailsPage extends StatelessWidget with StatusIconColorTextSelect {
                             ),
                             Padding(
                               padding: EdgeInsets.only(bottom: 8.0),
-                              child: Text(formatter.format(event.eventDate)),
+                              child: Text(formatter.format(event.eventDate!)),
                             ),
                           ],
                         ),
@@ -109,12 +109,12 @@ class EventDetailsPage extends StatelessWidget with StatusIconColorTextSelect {
     return Card(
       child: ListTile(
         leading: Icon(
-          statusIconType(event.status),
-          color: statusIconColor(event.status),
+          statusIconType(event.status!),
+          color: statusIconColor(event.status!),
           size: 40.0,
         ),
-        title: Text(event.name),
-        subtitle: Text(event.phone),
+        title: Text(event.name!),
+        subtitle: Text(event.phone!),
         trailing: Icon(
           Icons.call,
           color: Colors.greenAccent,
@@ -126,7 +126,7 @@ class EventDetailsPage extends StatelessWidget with StatusIconColorTextSelect {
 
   _callNumber(phone) async {
     var number = phone; //set the number here
-    bool res = await FlutterPhoneDirectCaller.callNumber(number);
+    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
     return res;
   }
 }

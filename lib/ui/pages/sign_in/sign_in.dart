@@ -33,7 +33,7 @@ class SignIn extends StatelessWidget {
                 child: TextFormField(
                   controller: emailController,
                   validator: (value) =>
-                      (value.isEmpty) ? "Пожалуйста, введите почту" : null,
+                      (value!.isEmpty) ? "Пожалуйста, введите почту" : null,
                   decoration: InputDecoration(
                     labelText: "Почта",
                     filled: true,
@@ -48,7 +48,7 @@ class SignIn extends StatelessWidget {
                 child: TextFormField(
                   controller: passwordController,
                   validator: (value) =>
-                      (value.isEmpty) ? "Пожалуйста, введите пароль" : null,
+                      (value!.isEmpty) ? "Пожалуйста, введите пароль" : null,
                   decoration: InputDecoration(
                     labelText: "Пароль",
                     filled: true,
@@ -66,7 +66,7 @@ class SignIn extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                     child: MaterialButton(
                       onPressed: () async {
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           var res = await context.read<AuthService>().signIn(
                               email: emailController.text.trim(),
                               password: passwordController.text.trim());
