@@ -25,4 +25,19 @@ class UserRepositoryImpl implements UserRepository {
   Future<UserDetails> getUserDetails(userUID) async {
     return remoteDataSource.getUserDetails(userUID);
   }
+
+  @override
+  Future<bool> isAuthenticated() {
+    return remoteDataSource.isAuthenticated();
+  }
+
+  @override
+  Future<void> authenticate() {
+    return remoteDataSource.authenticate();
+  }
+
+  @override
+  Future<String> getUserId() {
+    return remoteDataSource.getUserId();
+  }
 }

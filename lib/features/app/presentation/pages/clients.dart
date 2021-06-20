@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:s3/features/app/domain/entities/order.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:s3/features/app/presentation/bloc/order_calendar_bloc.dart';
 import 'package:s3/features/app/presentation/widgets/event_tile.dart';
 
 class ClientsPage extends StatefulWidget {
@@ -11,15 +11,22 @@ class ClientsPage extends StatefulWidget {
 class _ClientsPageState extends State<ClientsPage> {
   @override
   Widget build(BuildContext context) {
-    final snapshot = Provider.of<List<Order?>>(context);
-    return Builder(builder: (context) {
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            ...snapshot.map((event) => EventTile(event: event)),
-          ],
-        ),
-      );
-    });
+    var orders = [];
+    return BlocBuilder<OrderCalendarBloc, OrderCalendarState>(
+      builder: (context, state) {
+        if (state is OrdersLoading) {
+          return CircularProgressIndicator();
+        } else if (state is OrdersLoaded) {
+          orders = state.orders;
+        }
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              ...orders.map((event) => EventTile(event: event)),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

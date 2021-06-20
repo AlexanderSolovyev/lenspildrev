@@ -8,6 +8,9 @@ abstract class UserRemoteDataSource {
   Future<User?> userSignIn(email, password);
   Future<void> signOut();
   Future<UserDetails> getUserDetails(userUID);
+  Future<bool> isAuthenticated();
+  Future<void> authenticate();
+  Future<String> getUserId();
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -39,5 +42,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<UserDetailsModel> getUserDetails(userUID) async {
     final query = await firestore.collection('users').doc(userUID).get();
     return UserDetailsModel.fromDS(query.data()!);
+  }
+
+  @override
+  Future<bool> isAuthenticated() async {
+    final currentUser = firebaseAuth.currentUser;
+    return currentUser != null;
+  }
+
+  Future<void> authenticate() {
+    return firebaseAuth.signInAnonymously();
+  }
+
+  Future<String> getUserId() async {
+    return (firebaseAuth.currentUser)!.uid;
   }
 }

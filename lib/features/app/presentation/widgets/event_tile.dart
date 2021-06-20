@@ -32,7 +32,7 @@ class EventTile extends StatelessWidget with StatusIconColorTextSelect {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => EventDetailsPage(
+                  builder: (_) => OrderDetailsPage(
                         eventId: event!.id!,
                       )));
         },

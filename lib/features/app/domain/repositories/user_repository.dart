@@ -6,4 +6,7 @@ abstract class UserRepository {
   Future<User?> userSignIn(email, password);
   Future<void> signOut();
   Future<UserDetails> getUserDetails(userUID);
+  Future<bool> isAuthenticated();
+  Future<void> authenticate();
+  Future<String> getUserId();
 }

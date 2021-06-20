@@ -8,16 +8,16 @@ class OrderRepositoryImpl extends OrderRepository {
   OrderRepositoryImpl(this.orderRemoteDataSource);
 
   @override
-  Stream<List<Order?>> getOrders() => orderRemoteDataSource.getOrders;
+  Stream<List<Order?>> orders() => orderRemoteDataSource.orders();
 
   @override
-  Future<void> createOrder(item) {
-    return orderRemoteDataSource.createOrder(item);
+  Future<void> createOrder(createdOrder) {
+    return orderRemoteDataSource.createOrder(createdOrder);
   }
 
   @override
-  Future<void> updateOrder(id, item) {
-    return orderRemoteDataSource.updateOrder(id, item);
+  Future<void> updateOrder(Order updatedOrder) {
+    return orderRemoteDataSource.updateOrder(updatedOrder);
   }
 
   @override

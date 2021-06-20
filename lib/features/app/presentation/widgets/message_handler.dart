@@ -11,7 +11,7 @@ class MessageHandler extends StatefulWidget {
 }
 
 class _MessageHandlerState extends State<MessageHandler> {
-  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  //final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   final GetOrderById getOrderById;
 
   _MessageHandlerState(this.getOrderById);
@@ -34,7 +34,7 @@ class _MessageHandlerState extends State<MessageHandler> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => EventDetailsPage(
+              builder: (_) => OrderDetailsPage(
                     eventId: event!.id!,
                   )));
     });

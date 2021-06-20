@@ -12,20 +12,22 @@ class OrderModel extends Order {
   final String? phone;
   final String? name;
   final StatusValues? status;
+  final String? estimate;
 
-  OrderModel(
-      {this.id,
-      this.startDay,
-      this.endTime,
-      this.price,
-      this.allDay,
-      this.title,
-      this.description,
-      this.eventDate,
-      this.phone,
-      this.status,
-      this.name})
-      : super(
+  OrderModel({
+    this.id,
+    this.startDay,
+    this.endTime,
+    this.price,
+    this.allDay,
+    this.title,
+    this.description,
+    this.eventDate,
+    this.phone,
+    this.status,
+    this.name,
+    this.estimate,
+  }) : super(
             id: id,
             startDay: startDay,
             endTime: endTime,
@@ -36,7 +38,8 @@ class OrderModel extends Order {
             eventDate: eventDate,
             phone: phone,
             status: status,
-            name: name);
+            name: name,
+            estimate: estimate);
 
   factory OrderModel.fromMap(Map data) {
     return OrderModel(
@@ -51,6 +54,7 @@ class OrderModel extends Order {
       name: data['name'],
       status: StatusValues.values.firstWhere(
           (element) => element.toString().split('.')[1] == data['status']),
+      estimate: data['estimate'],
     );
   }
 
@@ -71,6 +75,7 @@ class OrderModel extends Order {
       name: data['name'],
       status: StatusValues.values.firstWhere(
           (element) => element.toString().split('.')[1] == data['status']),
+      estimate: data['estimate'],
     );
   }
 
@@ -87,6 +92,24 @@ class OrderModel extends Order {
       "phone": phone,
       "name": name,
       'status': status.toString().split('.')[1],
+      'estimate': estimate,
     };
+  }
+
+  factory OrderModel.fromEntity(Order order) {
+    return OrderModel(
+      id: order.id,
+      startDay: order.startDay,
+      endTime: order.endTime,
+      price: order.price,
+      allDay: order.allDay,
+      title: order.title,
+      description: order.description,
+      eventDate: order.eventDate,
+      phone: order.phone,
+      status: order.status,
+      name: order.name,
+      estimate: order.estimate,
+    );
   }
 }
