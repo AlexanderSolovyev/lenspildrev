@@ -36,7 +36,7 @@ class _AddEventPageState extends State<AddEventPage>
   void initState() {
     super.initState();
     _price = TextEditingController(
-        text: widget.note != null ? widget.note!.price.toString() : "");
+        text: widget.note != null ? widget.note!.price.toString() : "0");
     _title = TextEditingController(
         text: widget.note != null ? widget.note!.title : "");
     _description = TextEditingController(
@@ -247,7 +247,7 @@ class _AddEventPageState extends State<AddEventPage>
                     final updatedOrder = Order(
                       id: widget.note!.id!,
                       startDay: "01-01-2020",
-                      price: int.parse(_price!.text),
+                      price: int.parse(_price?.text ?? '0'),
                       allDay: false,
                       title: _title!.text,
                       description: _description!.text,
@@ -262,7 +262,7 @@ class _AddEventPageState extends State<AddEventPage>
                   } else {
                     final newOrder = Order(
                         startDay: "01-01-2020",
-                        price: int.parse(_price!.text),
+                        price: int.parse(_price?.text ?? '0'),
                         allDay: false,
                         title: _title!.text,
                         description: _description!.text,

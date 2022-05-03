@@ -12,14 +12,12 @@ import 'package:s3/features/app/domain/usecases/get_order_by_id.dart';
 import 'package:s3/features/app/domain/usecases/get_orders.dart';
 import 'package:s3/features/app/domain/usecases/user_sign_in.dart';
 import 'package:s3/features/app/domain/usecases/user_sign_out.dart';
-import 'package:s3/main.dart';
-
+import 'package:s3/features/app/presentation/cubit/clients_cubit.dart';
 import 'features/app/domain/repositories/user_repository.dart';
 import 'features/app/domain/usecases/get_user_details.dart';
 import 'features/app/domain/usecases/order_update.dart';
 import 'features/app/presentation/bloc/auth_bloc.dart';
 import 'features/app/presentation/bloc/order_calendar_bloc.dart';
-//import 'features/app/presentation/bloc/sign_in_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -32,6 +30,9 @@ Future<void> init() async {
   sl.registerFactory(
     () => OrderCalendarBloc(sl(), sl(), sl()),
   );
+  /* sl.registerFactory(
+    () => ClientsCubit(sl<OrderCalendarBloc>()),
+  ); */
 
   //Use cases
   sl.registerLazySingleton(() => GetOrders(sl()));
