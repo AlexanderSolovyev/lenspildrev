@@ -10,7 +10,7 @@ class Order extends Equatable {
   final String? id;
   final String? title;
   final String? description;
-  final DateTime? eventDate;
+  final DateTime eventDate;
   final DateTime? endTime;
   final String? phone;
   final String? name;
@@ -24,7 +24,7 @@ class Order extends Equatable {
     this.allDay,
     this.title,
     this.description,
-    this.eventDate,
+    required this.eventDate,
     this.phone,
     this.status,
     this.name,

@@ -7,7 +7,7 @@ class OrderModel extends Order {
   final String? id;
   final String? title;
   final String? description;
-  final DateTime? eventDate;
+  final DateTime eventDate;
   final DateTime? endTime;
   final String? phone;
   final String? name;
@@ -22,7 +22,7 @@ class OrderModel extends Order {
     this.allDay,
     this.title,
     this.description,
-    this.eventDate,
+    required this.eventDate,
     this.phone,
     this.status,
     this.name,
@@ -105,7 +105,7 @@ class OrderModel extends Order {
       allDay: order.allDay,
       title: order.title,
       description: order.description,
-      eventDate: order.eventDate,
+      eventDate: order.eventDate ?? DateTime.now(),
       phone: order.phone,
       status: order.status,
       name: order.name,
