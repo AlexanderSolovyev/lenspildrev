@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:s3/features/app/domain/usecases/get_orders.dart';
 import 'package:s3/features/app/domain/usecases/order_create.dart';
 import 'package:s3/features/app/domain/usecases/order_update.dart';
@@ -59,13 +60,13 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: [const Locale('ru')],
         title: 'ленспидрев.рф',
-        theme: ThemeData.dark(
+        theme: ThemeData(
+            brightness: Brightness.dark,
+            textTheme: GoogleFonts.montserratAlternatesTextTheme()
+                .apply(displayColor: Colors.white, bodyColor: Colors.white)
             //primarySwatch: Colors.orange,
             ),
         home: AuthWrapper(),
-        routes: {
-          "add_event": (_) => AddEventPage(),
-        },
       ),
     );
   }

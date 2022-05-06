@@ -19,12 +19,16 @@ class EventTile extends StatelessWidget with StatusIconColorTextSelect {
           size: 40.0,
         ),
         title: Text(event!.title!),
-        subtitle: Text(event!.description!),
+        subtitle: Text(event!.description! + '\n' + event!.name!),
+        isThreeLine: true,
         onLongPress: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => AddEventPage(note: event),
+              builder: (_) => AddEventPage(
+                note: event,
+                newOrder: false,
+              ),
             ),
           );
         },

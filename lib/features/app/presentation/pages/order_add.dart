@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:s3/features/app/domain/entities/order.dart';
 import 'package:s3/features/app/presentation/bloc/order_calendar_bloc.dart';
+import 'package:s3/features/app/presentation/widgets/date_picker_widget.dart';
 import 'package:s3/features/app/presentation/widgets/status_icon_color_select.dart';
 import 'package:intl/intl.dart';
 
 class AddEventPage extends StatefulWidget {
+  final bool newOrder;
   final Order? note;
   final DateTime? selectedDay;
 
-  const AddEventPage({Key? key, this.note, this.selectedDay}) : super(key: key);
+  const AddEventPage(
+      {Key? key, this.note, this.selectedDay, required this.newOrder})
+      : super(key: key);
 
   @override
   _AddEventPageState createState() => _AddEventPageState();
@@ -62,9 +66,8 @@ class _AddEventPageState extends State<AddEventPage>
       onWillPop: _willPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.note != null
-              ? "Изменить детали заказа"
-              : "Добавить заказ"),
+          title: Text(
+              !widget.newOrder ? "Изменить детали заказа" : "Добавить заказ"),
         ),
         key: _key,
         body: Form(
@@ -123,17 +126,36 @@ class _AddEventPageState extends State<AddEventPage>
                   ),
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.only(left: 26.0),
-                  title: Text(
-                    "Дата",
-                    style: TextStyle(fontSize: 12.0),
-                  ),
-                  subtitle: Text(
-                    //"${_eventDate!.day} - ${_eventDate!.month} - ${_eventDate!.year}",
-                    DateFormat("d MMMM yyyy", languageCode).format(_eventDate!),
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  onTap: () async {
+                    contentPadding: EdgeInsets.only(left: 26.0, right: 26.0),
+                    title: Text(
+                      "Дата",
+                      style: TextStyle(fontSize: 12.0),
+                    ),
+                    subtitle: Text(
+                      //"${_eventDate!.day} - ${_eventDate!.month} - ${_eventDate!.year}",
+                      DateFormat("d MMMM yyyy", languageCode)
+                          .format(_eventDate!),
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    trailing: !widget.newOrder
+                        ? IconButton(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AddEventPage(
+                                  note: widget.note,
+                                  newOrder: true,
+                                ),
+                              ),
+                            ),
+                            icon: Icon(Icons.copy),
+                          )
+                        : Container(
+                            height: 10.0,
+                            width: 10.0,
+                          ),
+                    onTap: () =>
+                        _showDialog() /*  () async {
                     DateTime? picked = await showDatePicker(
                         locale: const Locale('ru', 'RU'),
                         cancelText: 'ОТМЕНА',
@@ -146,8 +168,8 @@ class _AddEventPageState extends State<AddEventPage>
                         _eventDate = picked;
                       });
                     }
-                  },
-                ),
+                  }, */
+                    ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 5.0),
@@ -190,6 +212,36 @@ class _AddEventPageState extends State<AddEventPage>
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showDialog() async {
+    return showDialog<void>(
+      useSafeArea: true,
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          title: const Text('Выберите дату'),
+          content: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width,
+              child: DatePickerWidget(eventDate: (value) {
+                setState(() {
+                  _eventDate = value;
+                });
+              })),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -243,7 +295,7 @@ class _AddEventPageState extends State<AddEventPage>
               ),
               TextButton(
                 onPressed: () async {
-                  if (widget.note != null) {
+                  if (!widget.newOrder) {
                     final updatedOrder = Order(
                       id: widget.note!.id!,
                       startDay: "01-01-2020",

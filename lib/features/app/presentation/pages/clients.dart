@@ -5,6 +5,7 @@ import 'package:s3/features/app/presentation/widgets/event_tile.dart';
 import 'package:s3/features/app/presentation/widgets/message_handler.dart';
 
 import '../../domain/entities/order.dart';
+import 'package:intl/intl.dart';
 
 class ClientsPage extends StatefulWidget {
   @override
@@ -24,6 +25,7 @@ class _ClientsPageState extends State<ClientsPage> {
     'Илья молодец'
   ];
   late String status;
+  late bool isVisible;
   @override
   void initState() {
     super.initState();
@@ -32,6 +34,9 @@ class _ClientsPageState extends State<ClientsPage> {
 
   @override
   Widget build(BuildContext context) {
+    String languageCode = Localizations.localeOf(context).languageCode;
+
+    DateTime currentDay = DateTime(0);
     return BlocBuilder<ClientsCubit, ClientsState>(
       builder: (context, state) {
         if (state is ClientsLoadInProgress) {
@@ -66,7 +71,24 @@ class _ClientsPageState extends State<ClientsPage> {
               child: ListView(
                 children: [
                   MessageHandler(),
-                  ..._filteredOrders.map((event) => EventTile(event: event)),
+                  ..._filteredOrders.map((event) {
+                    (event.eventDate == currentDay)
+                        ? isVisible = false
+                        : isVisible = true;
+
+                    currentDay = event.eventDate;
+                    return Column(
+                      children: [
+                        isVisible
+                            ? Text(
+                                DateFormat("d MMMM yyyy", languageCode)
+                                    .format(event.eventDate),
+                              )
+                            : Container(),
+                        EventTile(event: event),
+                      ],
+                    );
+                  }),
                 ],
               ),
             ),

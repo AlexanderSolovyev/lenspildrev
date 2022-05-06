@@ -2,25 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:s3/features/app/domain/entities/order.dart';
 import 'package:s3/features/app/presentation/bloc/order_calendar_bloc.dart';
-import 'package:s3/features/app/presentation/widgets/event_tile.dart';
-import 'package:s3/features/app/presentation/widgets/message_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:s3/features/app/presentation/pages/order_add.dart';
 
-class OrderCalendarePage extends StatefulWidget {
+class DatePickerWidget extends StatefulWidget {
+  final ValueChanged<DateTime>? eventDate;
+
+  DatePickerWidget({Key? key, this.eventDate}) : super(key: key);
   @override
-  _OrderCalendarePageState createState() => _OrderCalendarePageState();
+  _DatePickerWidgetState createState() => _DatePickerWidgetState();
 }
 
-class _OrderCalendarePageState extends State<OrderCalendarePage>
+class _DatePickerWidgetState extends State<DatePickerWidget>
     with TickerProviderStateMixin {
-  DateTime selectedDay = DateTime.now();
-  CalendarFormat calendarFormat = CalendarFormat.twoWeeks;
+  late DateTime selectedDay;
+  late DateTime _focusedDay;
+  CalendarFormat calendarFormat = CalendarFormat.month;
 
   @override
   void initState() {
     super.initState();
     selectedDay = DateTime.now();
+    _focusedDay = selectedDay;
   }
 
   @override
@@ -36,39 +38,18 @@ class _OrderCalendarePageState extends State<OrderCalendarePage>
         orders = state.orders;
         dispachGetOrdersForDay(selectedDay);
       }
-      return SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            MessageHandler(),
-            buildTableCalendar(context, ordersForDay, orders),
-            ...ordersForDay.map((order) => EventTile(event: order)),
-            Align(
-              alignment: Alignment.topRight,
-              child: FlatButton(
-                textColor: ThemeData.dark().textSelectionColor,
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => AddEventPage(
-                      selectedDay: selectedDay,
-                      newOrder: true,
-                    ),
-                  ),
-                ),
-                child: Text('ДОБАВИТЬ ЗАКАЗ'),
-              ),
-            ),
-          ],
-        ),
-      );
+      return Scaffold(body: buildTableCalendar(context, ordersForDay, orders));
     });
   }
 
   TableCalendar buildTableCalendar(BuildContext context, ordersForDay, orders) {
     return TableCalendar(
+      onPageChanged: (focusedDay) {
+        _focusedDay = focusedDay;
+      },
       firstDay: DateTime.utc(2019),
       lastDay: DateTime.utc(2030),
-      focusedDay: selectedDay,
+      focusedDay: _focusedDay,
       selectedDayPredicate: (day) {
         return isSameDay(selectedDay, day);
       },
@@ -96,11 +77,12 @@ class _OrderCalendarePageState extends State<OrderCalendarePage>
           borderRadius: BorderRadius.circular(20.0),
         ),
         formatButtonTextStyle: TextStyle(color: Colors.white),
-        formatButtonShowsNext: false,
+        //formatButtonShowsNext: false,
       ),
       startingDayOfWeek: StartingDayOfWeek.monday,
       onDaySelected: (date, orders) {
         dispachGetOrdersForDay(date);
+        widget.eventDate!(date);
         setState(() {
           selectedDay = date;
         });
